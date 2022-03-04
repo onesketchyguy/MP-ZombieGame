@@ -12,14 +12,6 @@ namespace ZombieGame
         public Animator animator;
         public TextMesh healthBar;
 
-        [Header("Movement")]
-        public float rotationSpeed = 100;
-
-        [Header("Firing")]
-        public KeyCode shootKey = KeyCode.Space;
-        public GameObject projectilePrefab;
-        public Transform projectileMount;
-
         [Header("Stats")]
         [SyncVar] public int health = 4;
 
@@ -44,6 +36,7 @@ namespace ZombieGame
         public override void OnStartServer()
         {
             InvokeRepeating(nameof(OnServerUpdate), 0, 0.1f);
+            healthBar.text = new string('-', health);
         }
 
         [ServerCallback]
@@ -60,28 +53,14 @@ namespace ZombieGame
         [ClientRpc]
         private void RpcSetDestination(Vector3 destination) => agent.SetDestination(destination);
 
-        // this is called on the server
-        [Command]
-        void CmdFire()
-        {
-            GameObject projectile = Instantiate(projectilePrefab, projectileMount.position, projectileMount.rotation);
-            NetworkServer.Spawn(projectile);
-            RpcOnFire();
-        }
-
-        // this is called on the tank that fired for all observers
-        [ClientRpc]
-        void RpcOnFire()
-        {
-            animator.SetTrigger("Shoot");
-        }
-
         [ServerCallback]
         void OnTriggerEnter(Collider other)
         {
             if (other.GetComponent<Projectile>() != null)
             {
                 --health;
+                healthBar.text = new string('-', health);
+
                 if (health == 0)
                     NetworkServer.Destroy(gameObject);
             }
