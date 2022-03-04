@@ -1,0 +1,220 @@
+fileFormatVersion: 2
+guid: cf87583aca34c244791400d99cc3cfaf
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: root
+    100002: //RootNode
+    100004: Ursacetus_
+    100006: Ursacetus_ Head
+    100008: Ursacetus_ L Calf
+    100010: Ursacetus_ L Clavicle
+    100012: Ursacetus_ L Finger0
+    100014: Ursacetus_ L Finger01
+    100016: Ursacetus_ L Finger02
+    100018: Ursacetus_ L Finger1
+    100020: Ursacetus_ L Finger11
+    100022: Ursacetus_ L Finger12
+    100024: Ursacetus_ L Finger2
+    100026: Ursacetus_ L Finger21
+    100028: Ursacetus_ L Finger22
+    100030: Ursacetus_ L Foot
+    100032: Ursacetus_ L Forearm
+    100034: Ursacetus_ L ForearmTwistBone
+    100036: Ursacetus_ L Hand
+    100038: Ursacetus_ L Thigh
+    100040: Ursacetus_ L UpperArm
+    100042: Ursacetus_ Neck
+    100044: Ursacetus_ Pelvis
+    100046: Ursacetus_ R Calf
+    100048: Ursacetus_ R Clavicle
+    100050: Ursacetus_ R Finger0
+    100052: Ursacetus_ R Finger01
+    100054: Ursacetus_ R Finger02
+    100056: Ursacetus_ R Finger1
+    100058: Ursacetus_ R Finger11
+    100060: Ursacetus_ R Finger12
+    100062: Ursacetus_ R Finger2
+    100064: Ursacetus_ R Finger21
+    100066: Ursacetus_ R Finger22
+    100068: Ursacetus_ R Foot
+    100070: Ursacetus_ R Forearm
+    100072: Ursacetus_ R ForearmTwistBone
+    100074: Ursacetus_ R Hand
+    100076: Ursacetus_ R Thigh
+    100078: Ursacetus_ R UpperArm
+    100080: Ursacetus_ Spine
+    100082: Ursacetus_ Spine1
+    100084: Ursacetus_ Spine2
+    100086: Ursacetus_Jaw
+    100088: Ursacetus_Tongue_1
+    100090: Ursacetus_Tongue_2
+    100092: Ursacetus_Tongue_3
+    100094: Ursacetus_Tongue_4
+    100096: Ursacetus_Tongue_5
+    400000: root
+    400002: //RootNode
+    400004: Ursacetus_
+    400006: Ursacetus_ Head
+    400008: Ursacetus_ L Calf
+    400010: Ursacetus_ L Clavicle
+    400012: Ursacetus_ L Finger0
+    400014: Ursacetus_ L Finger01
+    400016: Ursacetus_ L Finger02
+    400018: Ursacetus_ L Finger1
+    400020: Ursacetus_ L Finger11
+    400022: Ursacetus_ L Finger12
+    400024: Ursacetus_ L Finger2
+    400026: Ursacetus_ L Finger21
+    400028: Ursacetus_ L Finger22
+    400030: Ursacetus_ L Foot
+    400032: Ursacetus_ L Forearm
+    400034: Ursacetus_ L ForearmTwistBone
+    400036: Ursacetus_ L Hand
+    400038: Ursacetus_ L Thigh
+    400040: Ursacetus_ L UpperArm
+    400042: Ursacetus_ Neck
+    400044: Ursacetus_ Pelvis
+    400046: Ursacetus_ R Calf
+    400048: Ursacetus_ R Clavicle
+    400050: Ursacetus_ R Finger0
+    400052: Ursacetus_ R Finger01
+    400054: Ursacetus_ R Finger02
+    400056: Ursacetus_ R Finger1
+    400058: Ursacetus_ R Finger11
+    400060: Ursacetus_ R Finger12
+    400062: Ursacetus_ R Finger2
+    400064: Ursacetus_ R Finger21
+    400066: Ursacetus_ R Finger22
+    400068: Ursacetus_ R Foot
+    400070: Ursacetus_ R Forearm
+    400072: Ursacetus_ R ForearmTwistBone
+    400074: Ursacetus_ R Hand
+    400076: Ursacetus_ R Thigh
+    400078: Ursacetus_ R UpperArm
+    400080: Ursacetus_ Spine
+    400082: Ursacetus_ Spine1
+    400084: Ursacetus_ Spine2
+    400086: Ursacetus_Jaw
+    400088: Ursacetus_Tongue_1
+    400090: Ursacetus_Tongue_2
+    400092: Ursacetus_Tongue_3
+    400094: Ursacetus_Tongue_4
+    400096: Ursacetus_Tongue_5
+    7400000: WalkBackwardsWithRock
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: WalkBackwardsWithRock
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 55
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 1
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: root
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: d33c7d7f2ee2e1741beb56220b871195,
+    type: 3}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

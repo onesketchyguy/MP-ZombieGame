@@ -15,6 +15,8 @@ namespace ZombieGame.NetworkUI
         public UnityEngine.Events.UnityEvent onJoinServerEvent;
         public UnityEngine.Events.UnityEvent onHostServerEvent;
 
+        [SerializeField] private GameObject hostButton = null;
+
         public GameObject serverButtonPrefab;
         public Transform serverButtonParent;
 
@@ -36,6 +38,8 @@ namespace ZombieGame.NetworkUI
 
         public void ClearServerList()
         {
+            networkDiscovery.StopDiscovery();
+
             discoveredServers.Clear();
             for (int i = 0; i < serverButtonParent.childCount; i++)
             {
@@ -69,8 +73,7 @@ namespace ZombieGame.NetworkUI
                 // A local host exists connect to them instead of trying to host.
                 NetworkManager.singleton.StartClient();
 
-                if (onJoinServerEvent != null)
-                    onJoinServerEvent.Invoke();
+                if (onJoinServerEvent != null) onJoinServerEvent.Invoke();
 
                 return;
             }
@@ -79,8 +82,26 @@ namespace ZombieGame.NetworkUI
             NetworkManager.singleton.StartHost();
             networkDiscovery.AdvertiseServer();
 
-            if (onHostServerEvent != null)
-                onHostServerEvent.Invoke();
+            if (onHostServerEvent != null) onHostServerEvent.Invoke();
+        }
+
+        public void SoloHost()
+        {
+            if (NetworkServer.localConnection != null)
+            {
+                // A local host exists connect to them instead of trying to host.
+                NetworkManager.singleton.StartClient();
+
+                if (onJoinServerEvent != null)
+                    onJoinServerEvent.Invoke();
+
+                return;
+            }
+
+            ClearServerList();
+            NetworkManager.singleton.StartHost();
+
+            if (onHostServerEvent != null) onHostServerEvent.Invoke();
         }
 
         public void Connect(ServerResponse info)
@@ -101,6 +122,11 @@ namespace ZombieGame.NetworkUI
 
             discoveredServers[info.serverId] = info;
             CreateServerButton(info);
+
+            if (NetworkServer.localConnection != null)
+            {
+                hostButton.SetActive(false);
+            }
         }
     }
 }
