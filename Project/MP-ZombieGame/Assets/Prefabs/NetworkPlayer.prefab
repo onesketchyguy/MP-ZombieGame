@@ -107,12 +107,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   healthBar: {fileID: 1985504562751981867}
-  handsAnimator: {fileID: 2613612064541248067}
   rotationSpeed: 100
   projectilePrefab: {fileID: 5890560936853567077, guid: b7dd46dbf38c643f09e206f9fa4be008, type: 3}
   projectileMount: {fileID: 4716184818343751987}
   health: 4
   fpsController: {fileID: 8497308850125573845}
+  fpsArms: {fileID: 3676666342311023884}
   characterController: {fileID: 661900012731812257}
   body: {fileID: 1326172601908296330}
   arms: {fileID: 2671715742419713285}
@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 2159254931446011050}
   - component: {fileID: 9221799945061562393}
   - component: {fileID: 5797887790441071526}
+  - component: {fileID: 3676666342311023884}
   m_Layer: 0
   m_Name: ArmsCam
   m_TagString: MainCamera
@@ -491,6 +492,23 @@ MonoBehaviour:
   activeOnLocal: 1
   disableOnCompletion: 1
   client: {fileID: 114250499875391520}
+--- !u!114 &3676666342311023884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2906095702556152561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf04f7c9c40d1db4eb9455aab1565b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 2613612064541248067}
+  animAimFloat: Aim
+  animReloadTrigger: Reload
+  currentWeaponAmmo: 7
+  reloadClip: {fileID: 7400000, guid: e20690ac7b30a9146a4fdd7799a125d8, type: 3}
 --- !u!1 &5385408790132467823
 GameObject:
   m_ObjectHideFlags: 0

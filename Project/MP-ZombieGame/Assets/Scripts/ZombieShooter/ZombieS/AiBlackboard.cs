@@ -14,8 +14,9 @@ namespace ZombieGame
 
         private static void VerifyPlayers()
         {
-            var removes = new List<int>();
+            if (players == null || players.Length == 0) return;
 
+            var removes = new List<int>();
             for (int i = 0; i < players.Length; i++)
                 if (players[i] == null) removes.Add(i);
 

@@ -8,7 +8,6 @@ namespace ZombieGame
     {
         [Header("Components")]
         public TextMesh healthBar;
-        public Animator handsAnimator;
 
         [Header("Movement")]
         public float rotationSpeed = 100;
@@ -20,7 +19,9 @@ namespace ZombieGame
         [Header("Stats")]
         [SyncVar] public int health = 4;
 
+        [Header("Character setup")]
         [SerializeField] private FPS.FPSController fpsController;
+        [SerializeField] private FPS.FPSArmsController fpsArms;
         [SerializeField] private CharacterController characterController;
 
         [Header("Client setup")]
@@ -64,7 +65,10 @@ namespace ZombieGame
             if (isLocalPlayer)
             {
                 // shoot
-                if (Input.GetMouseButtonDown(0)) CmdFire();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (fpsArms.FireWeapon() == true) CmdFire();
+                }
 
                 moveInput.x = Input.GetAxisRaw("Horizontal");
                 moveInput.z = Input.GetAxisRaw("Vertical");
@@ -116,14 +120,6 @@ namespace ZombieGame
         {
             GameObject projectile = Instantiate(projectilePrefab, projectileMount.position, projectileMount.rotation);
             NetworkServer.Spawn(projectile);
-            RpcOnFire();
-        }
-
-        // this is called on the tank that fired for all observers
-        [ClientRpc]
-        void RpcOnFire()
-        {
-            if (handsAnimator != null) handsAnimator.SetTrigger("Shoot");
         }
 
         [ServerCallback]
