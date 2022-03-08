@@ -170,6 +170,7 @@ MonoBehaviour:
   anim_velocity_y: Forward
   anim: {fileID: 1326172601161590769}
   characterController: {fileID: 661900012731812257}
+  speedMultiplier: 0.25
 --- !u!136 &1941633395665630001
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
@@ -13,6 +11,9 @@ namespace ZombieGame
 
         [Space]
         [SerializeField] private CharacterController characterController = null;
+        [SerializeField] private float speedMultiplier = 0.5f;
+
+        private Vector3 velocity;
 
 #if UNITY_EDITOR
         private void OnValidate() => ValidateComponents();
@@ -29,8 +30,9 @@ namespace ZombieGame
         private void Update()
         {
             if (!hasAuthority) return;
+            if (Time.frameCount % 3 != 0) return;
 
-            var velocity = transform.InverseTransformDirection(characterController.velocity);
+            velocity = transform.InverseTransformDirection(characterController.velocity * speedMultiplier);
             CmdSetFloat(anim_velocity_y, velocity.z);
             CmdSetFloat(anim_velocity_x, velocity.x);
         }

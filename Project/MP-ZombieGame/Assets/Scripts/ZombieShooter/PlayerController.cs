@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 using Mirror;
 using Mirror.Examples.Tanks;
 
@@ -25,9 +24,9 @@ namespace ZombieGame
         [SerializeField] private CharacterController characterController;
 
         [Header("Client setup")]
-        [SerializeField] GameObject body;
-        [SerializeField] GameObject arms;
-
+        [SerializeField] private GameObject body;
+        [SerializeField] private GameObject arms;
+        [Space]
         [SerializeField] private string hideFromClient = "LocalPlayer";
         [SerializeField] private string showClient = "ClientPlayer";
         private bool setLayers = false;
@@ -36,20 +35,24 @@ namespace ZombieGame
         private Vector2 lookInput;
         private float runInput;
 
+#if UNITY_EDITOR
         void OnValidate()
         {
-            if (characterController == null)
-                characterController = GetComponent<CharacterController>();
+            if (characterController == null) characterController = GetComponent<CharacterController>();
 
             characterController.enabled = false;
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<NetworkTransform>().clientAuthority = true;
         }
+#endif
 
         public override void OnStartLocalPlayer()
         {
             characterController.enabled = true;
         }
+
+        private void OnEnable() => AiBlackboard.RegisterPlayer(this);
+        private void OnDisable() => AiBlackboard.DeregisterPlayer(this);
 
         void Update()
         {
@@ -85,28 +88,26 @@ namespace ZombieGame
             if (setLayers == true) return;
             setLayers = true;
 
+            // FIXME: Interpret if it's a skinned mesh renderer or mesh renderer
+
+            var bodyMesh = body.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var armsMesh = arms.GetComponentsInChildren<SkinnedMeshRenderer>();
+
+            //int bodyLayer = isLocalPlayer ? LayerMask.NameToLayer(hideFromClient) : LayerMask.NameToLayer(showClient);
+            int armsLayer = isLocalPlayer ? LayerMask.NameToLayer(showClient) : LayerMask.NameToLayer(hideFromClient);
+
             if (isLocalPlayer)
             {
-                int hideLayer = LayerMask.NameToLayer(hideFromClient);
-                int showLayer = LayerMask.NameToLayer(showClient);
+                if (bodyMesh.Length == 0) Debug.LogError("No body mesh!");
 
-                foreach (var item in body.GetComponentsInChildren<Transform>())
-                    item.gameObject.layer = hideLayer;
-
-                foreach (var item in arms.GetComponentsInChildren<Transform>())
-                    item.gameObject.layer = showLayer;
+                foreach (var item in bodyMesh)
+                {
+                    item.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                    Debug.Log($"{item.name} set to {item.shadowCastingMode}");
+                }
             }
-            else
-            {
-                int hideLayer = LayerMask.NameToLayer(showClient);
-                int showLayer = LayerMask.NameToLayer(hideFromClient);
 
-                foreach (var item in body.GetComponentsInChildren<Transform>())
-                    item.gameObject.layer = hideLayer;
-
-                foreach (var item in arms.GetComponentsInChildren<Transform>())
-                    item.gameObject.layer = showLayer;
-            }
+            foreach (var item in armsMesh) item.gameObject.layer = armsLayer;
         }
 
         // this is called on the server
