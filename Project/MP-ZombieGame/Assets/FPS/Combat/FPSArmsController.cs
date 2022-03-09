@@ -8,7 +8,7 @@ namespace FPS
         [SerializeField] private Animator anim;
         [SerializeField] private string animAimFloat = "Aim";
         [SerializeField] private string animReloadTrigger = "Reload";
-        [SerializeField] private uint currentWeaponAmmo = 7;
+        private uint currentWeaponAmmo = 0;
 
         [SerializeField] internal AnimationClip reloadClip = null; // FIXME: Assign clip based on weapon
         private float reloadTime;
@@ -16,12 +16,25 @@ namespace FPS
         [SerializeField] private float moveToAimSpd = 10.0f;
         private bool aiming = false;
 
+        public uint GetBulletCount()
+        {
+            return currentWeaponAmmo;
+        }
+
+        public bool GetReloading()
+        {
+            return (reloadTime > Time.time);
+        }
+
         private void OnEnable()
         {
             FPSInputManager.Enable();
             inputActions = FPSInputManager.GetPlayerInput();
             inputActions.Aim.performed += _ => Aim(true);
             inputActions.Aim.canceled += _ => Aim(false);
+            inputActions.Reload.performed += _ => ReloadWeapon();
+
+            ReloadWeapon();
         }
 
         private void OnDisable()
@@ -51,17 +64,27 @@ namespace FPS
 
             if (currentWeaponAmmo <= 0)
             {
-                currentWeaponAmmo = 7; // FIXME: Use magazine size
-                anim.SetTrigger(animReloadTrigger);
-
-                reloadTime = Time.time + reloadClip.length;
-
+                ReloadWeapon();
                 return false;
             }
 
             currentWeaponAmmo--;
 
             return true;
+        }
+
+        private void ReloadWeapon()
+        {
+            anim.SetTrigger(animReloadTrigger);
+
+            reloadTime = Time.time + reloadClip.length;
+
+            Invoke(nameof(ResetAmmo), reloadClip.length);
+        }
+
+        public void ResetAmmo()
+        {
+            currentWeaponAmmo = 7; // FIXME: Use magazine size
         }
     }
 }

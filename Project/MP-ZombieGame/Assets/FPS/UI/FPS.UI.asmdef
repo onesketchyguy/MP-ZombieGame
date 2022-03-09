@@ -1,0 +1,16 @@
+{
+    "name": "FPS.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d0b933b35d6d04a47b95676281f4c52c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
