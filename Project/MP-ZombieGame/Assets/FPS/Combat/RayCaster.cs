@@ -8,7 +8,14 @@ namespace FPS
         [SerializeField] private UnityEngine.UI.Image hitMarker = null;
         [SerializeField] private float hitMarkerDecaySpeed = 50.0f;
 
-        public void Cast(float damage)
+        [SerializeField] UnityEngine.Events.UnityEvent onHitEvent;
+
+        private void Start()
+        {
+            hitMarker.color = new Color(hitMarker.color.r, hitMarker.color.g, hitMarker.color.b, 0.0f);
+        }
+
+        public bool Cast(float damage)
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
@@ -24,12 +31,18 @@ namespace FPS
                     {
                         StartCoroutine(OnHit());
                     }
+
+                    onHitEvent?.Invoke();
+
+                    return true;
                 }
             }
             else
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             }
+
+            return false;
         }
 
         private IEnumerator OnHit()

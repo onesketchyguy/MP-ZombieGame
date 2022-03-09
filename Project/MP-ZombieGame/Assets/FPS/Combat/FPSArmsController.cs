@@ -10,11 +10,15 @@ namespace FPS
         [SerializeField] private string animReloadTrigger = "Reload";
         private uint currentWeaponAmmo = 0;
 
+        [SerializeField] private UnityEngine.UI.Graphic crossheir = null;
+
         [SerializeField] internal AnimationClip reloadClip = null; // FIXME: Assign clip based on weapon
         private float reloadTime;
 
         [SerializeField] private float moveToAimSpd = 10.0f;
         private bool aiming = false;
+
+        [SerializeField] private UnityEngine.Events.UnityEvent onFire;
 
         public uint GetBulletCount()
         {
@@ -28,7 +32,7 @@ namespace FPS
 
         private void OnEnable()
         {
-            FPSInputManager.Enable();
+            FPSInputManager.Init();
             inputActions = FPSInputManager.GetPlayerInput();
             inputActions.Aim.performed += _ => Aim(true);
             inputActions.Aim.canceled += _ => Aim(false);
@@ -41,6 +45,7 @@ namespace FPS
         {
             inputActions.Aim.performed -= _ => Aim(true);
             inputActions.Aim.canceled -= _ => Aim(false);
+            inputActions.Reload.performed -= _ => ReloadWeapon();
             FPSInputManager.Disable();
         }
 
@@ -50,12 +55,14 @@ namespace FPS
 
             float aimValue = anim.GetFloat(animAimFloat);
             anim.SetFloat(animAimFloat, Mathf.Lerp(aimValue, aiming == true ? 1 : 0, moveToAimSpd * Time.deltaTime));
+
+            crossheir.color = Color.Lerp(crossheir.color, 
+                new Color(crossheir.color.r, crossheir.color.g, crossheir.color.b, (aiming == true ? 0 : 1) * 255.0f), aimValue);
         }
 
-        private void Aim(bool value)
+        public void Aim(bool value)
         {
             aiming = value;
-            Debug.Log($"Aiming: {value}");
         }
 
         public bool FireWeapon()
@@ -69,12 +76,15 @@ namespace FPS
             }
 
             currentWeaponAmmo--;
+            onFire?.Invoke();
 
             return true;
         }
 
-        private void ReloadWeapon()
+        public void ReloadWeapon()
         {
+            if (GetReloading()) return;
+
             anim.SetTrigger(animReloadTrigger);
 
             reloadTime = Time.time + reloadClip.length;

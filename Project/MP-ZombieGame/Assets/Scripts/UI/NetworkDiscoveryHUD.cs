@@ -4,7 +4,7 @@ using Mirror;
 using Mirror.Discovery;
 using UnityEngine.UI;
 
-namespace ZombieGame.NetworkUI
+namespace ZombieShooter.NetworkUI
 {
     public class NetworkDiscoveryHUD : MonoBehaviour
     {

@@ -1,6 +1,5 @@
 using UnityEngine;
 using Mirror;
-using Mirror.Examples.Tanks;
 
 namespace ZombieGame
 {
@@ -15,6 +14,7 @@ namespace ZombieGame
         [Header("Firing")]
         [SerializeField] private FPS.FPSArmsController fpsArms;
         [SerializeField] private FPS.RayCaster rayCaster;
+        [SerializeField] private UnityEngine.Events.UnityEvent onFire;
 
         [Header("Stats")]
         [SyncVar] public int health = 4;
@@ -45,6 +45,7 @@ namespace ZombieGame
         public override void OnStartLocalPlayer()
         {
             characterController.enabled = true;
+            FPS.FPSInputManager.Enable();
         }
 
         private void OnEnable() => AiBlackboard.RegisterPlayer(this);
@@ -105,9 +106,16 @@ namespace ZombieGame
 
         // this is called on the server
         [Command]
-        void CmdFire()
+        private void CmdFire()
         {
             rayCaster.Cast(1); // FIXME: Use weapon damage
+            RpcFire();
+        }
+
+        [ClientRpc]
+        private void RpcFire()
+        {
+            onFire?.Invoke();
         }
 
         //[ServerCallback]

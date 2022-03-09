@@ -10,6 +10,8 @@ namespace FPS
         [SerializeField] private AudioClip[] landClips = null;
         [SerializeField] private AudioClip[] jumpClips = null;
 
+        public System.Action onFootstep, onLand, onJump;
+
         private float stepTime = 0.0f;
         private float landTime = 0.0f;
 
@@ -20,24 +22,42 @@ namespace FPS
         }
 #endif
 
+        public void PlayFootStep()
+        {
+            audioSource.PlayOneShot(stepClips[Random.Range(0, stepClips.Length)]);
+        }
+
+        public void PlayLand()
+        {
+            audioSource.PlayOneShot(landClips[Random.Range(0, landClips.Length)]);
+        }
+
+        public void PlayJump()
+        {
+            audioSource.PlayOneShot(jumpClips[Random.Range(0, jumpClips.Length)]);
+        }
+
         public void TakeStep()
         {
             if (Time.time - stepTime < 0.1f) return;
             stepTime = Time.time;
-            audioSource.PlayOneShot(stepClips[Random.Range(0, stepClips.Length)]);
+            PlayFootStep();
+            onFootstep?.Invoke();
         }
 
         public void Land()
         {
             if (Time.time - landTime < 0.1f) return;
             landTime = Time.time;
-            audioSource.PlayOneShot(landClips[Random.Range(0, landClips.Length)]);
+            PlayLand();
+            onLand?.Invoke();
         }
         public void Jump()
         {
             if (Time.time - landTime < 0.1f) return;
             landTime = Time.time;
-            audioSource.PlayOneShot(jumpClips[Random.Range(0, jumpClips.Length)]);
+            PlayJump();
+            onJump?.Invoke();
         }
     }
 }
