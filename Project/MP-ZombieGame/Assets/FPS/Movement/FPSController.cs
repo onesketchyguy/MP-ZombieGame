@@ -29,6 +29,11 @@ namespace FPS
         private Vector3 input;
         private float runInput;
 
+        public bool GetGrounded()
+        {
+            return grounded;
+        }
+
         [Header("Camera")]
         [SerializeField] private Transform cameraPeg = null;
         [SerializeField] private float cameraSpeed = 5.0f;
@@ -84,6 +89,8 @@ namespace FPS
         }
 #endif
         public float GetRunInput() => runInput;
+
+        public Vector3 GetMoveInput() => input;
 
         public FPSController SetMoveInput(Vector3 input, float runInput)
         {

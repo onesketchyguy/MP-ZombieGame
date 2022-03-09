@@ -13,23 +13,18 @@ namespace ZombieGame
         public float rotationSpeed = 100;
 
         [Header("Firing")]
-        public GameObject projectilePrefab;
-        public Transform projectileMount;
+        [SerializeField] private FPS.FPSArmsController fpsArms;
+        [SerializeField] private FPS.RayCaster rayCaster;
 
         [Header("Stats")]
         [SyncVar] public int health = 4;
 
         [Header("Character setup")]
         [SerializeField] private FPS.FPSController fpsController;
-        [SerializeField] private FPS.FPSArmsController fpsArms;
         [SerializeField] private CharacterController characterController;
 
         [Header("Client setup")]
         [SerializeField] private GameObject body;
-        [SerializeField] private GameObject arms;
-        [Space]
-        [SerializeField] private string hideFromClient = "LocalPlayer";
-        [SerializeField] private string showClient = "ClientPlayer";
         private bool setLayers = false;
 
         private Vector3 moveInput;
@@ -95,10 +90,6 @@ namespace ZombieGame
             // FIXME: Interpret if it's a skinned mesh renderer or mesh renderer
 
             var bodyMesh = body.GetComponentsInChildren<SkinnedMeshRenderer>();
-            var armsMesh = arms.GetComponentsInChildren<SkinnedMeshRenderer>();
-
-            //int bodyLayer = isLocalPlayer ? LayerMask.NameToLayer(hideFromClient) : LayerMask.NameToLayer(showClient);
-            int armsLayer = isLocalPlayer ? LayerMask.NameToLayer(showClient) : LayerMask.NameToLayer(hideFromClient);
 
             if (isLocalPlayer)
             {
@@ -110,27 +101,24 @@ namespace ZombieGame
                     Debug.Log($"{item.name} set to {item.shadowCastingMode}");
                 }
             }
-
-            foreach (var item in armsMesh) item.gameObject.layer = armsLayer;
         }
 
         // this is called on the server
         [Command]
         void CmdFire()
         {
-            GameObject projectile = Instantiate(projectilePrefab, projectileMount.position, projectileMount.rotation);
-            NetworkServer.Spawn(projectile);
+            rayCaster.Cast(1); // FIXME: Use weapon damage
         }
 
-        [ServerCallback]
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.GetComponent<Projectile>() != null)
-            {
-                --health;
-                if (health == 0)
-                    NetworkServer.Destroy(gameObject);
-            }
-        }
+        //[ServerCallback]
+        //void OnTriggerEnter(Collider other)
+        //{
+        //    if (other.GetComponent<Projectile>() != null)
+        //    {
+        //        --health;
+        //        if (health == 0)
+        //            NetworkServer.Destroy(gameObject);
+        //    }
+        //}
     }
 }

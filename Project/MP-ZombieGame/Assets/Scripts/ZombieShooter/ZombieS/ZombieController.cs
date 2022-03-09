@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.AI;
 using Mirror;
-using Mirror.Examples.Tanks;
 
 namespace ZombieGame
 {
-    public class ZombieController : NetworkBehaviour
+    public class ZombieController : NetworkBehaviour, IDamagable
     {
         [Header("Components")]
         public NavMeshAgent agent;
@@ -16,7 +15,7 @@ namespace ZombieGame
         [SerializeField] private float attackRange = 2.0f;
 
         [Header("Stats")]
-        [SyncVar] public int health = 4;
+        [SyncVar] public float health = 4;
 
         private Transform target = null;
 
@@ -39,7 +38,6 @@ namespace ZombieGame
         public override void OnStartServer()
         {
             InvokeRepeating(nameof(OnServerUpdate), 0, 0.1f);
-            healthBar.text = new string('-', health);
         }
 
         [ServerCallback]
@@ -55,20 +53,29 @@ namespace ZombieGame
             }
         }
 
+        private void Update()
+        {
+            if (Time.frameCount % 6 == 0) healthBar.text = new string('-', Mathf.RoundToInt(health));
+        }
+
         [ClientRpc]
         private void RpcSetDestination(Vector3 destination) => agent.SetDestination(destination);
 
-        [ServerCallback]
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.GetComponent<Projectile>() != null)
-            {
-                --health;
-                healthBar.text = new string('-', health);
+        //[ServerCallback]
+        //void OnTriggerEnter(Collider other)
+        //{
+        //    if (other.GetComponent<Projectile>() != null)
+        //    {
+        //        --health;
+        //    }
+        //}
 
-                if (health == 0)
-                    NetworkServer.Destroy(gameObject);
-            }
+        [ServerCallback]
+        public void RecieveDamage(float damage)
+        {
+            health -= damage;
+
+            if (health <= 0) NetworkServer.Destroy(gameObject);
         }
     }
 }

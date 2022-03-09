@@ -5,11 +5,13 @@ namespace ZombieGame
 {
     public class CharacterAnimator : NetworkBehaviour
     {
-        [SerializeField] private string anim_velocity_x = "Strafe";
-        [SerializeField] private string anim_velocity_y = "Forward";
+        [SerializeField] private string animVelocity_x = "Strafe";
+        [SerializeField] private string animVelocity_y = "Forward";
+        [SerializeField] private string animGrounded = "Grounded";
         [SerializeField] private Animator anim;
 
         [Space]
+        [SerializeField] private FPS.FPSController fpsController = null;
         [SerializeField] private CharacterController characterController = null;
         [SerializeField] private float speedMultiplier = 0.5f;
 
@@ -32,9 +34,12 @@ namespace ZombieGame
             if (!hasAuthority) return;
             if (Time.frameCount % 3 != 0) return;
 
+            var grounded = fpsController.GetMoveInput().y <= 0 || fpsController.GetGrounded();
+            CmdSetBool(animGrounded, fpsController.GetGrounded());
+
             velocity = transform.InverseTransformDirection(characterController.velocity * speedMultiplier);
-            CmdSetFloat(anim_velocity_y, velocity.z);
-            CmdSetFloat(anim_velocity_x, velocity.x);
+            CmdSetFloat(animVelocity_y, velocity.z);
+            CmdSetFloat(animVelocity_x, velocity.x);
         }
 
         [Command]
@@ -47,6 +52,18 @@ namespace ZombieGame
         private void RpcSetFloat(string key, float val)
         {
             anim.SetFloat(key, val);
+        }
+
+        [Command]
+        private void CmdSetBool(string key, bool val)
+        {
+            RpcSetBool(key, val);
+        }
+
+        [ClientRpc]
+        private void RpcSetBool(string key, bool val)
+        {
+            anim.SetBool(key, val);
         }
     }
 }
