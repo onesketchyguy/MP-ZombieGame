@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 114118589361100106}
   - component: {fileID: 114250499875391520}
   - component: {fileID: 7144377311613369288}
-  - component: {fileID: 2240606817507776182}
   - component: {fileID: 1847784053883185714}
   - component: {fileID: 6900008319038825817}
   - component: {fileID: 5411918873459110395}
@@ -125,25 +124,6 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   target: {fileID: 0}
---- !u!95 &2240606817507776182
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1916082411674582}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 38b49695fc0a4418bbc350f2366660c5, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1847784053883185714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,8 +139,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   agent: {fileID: 6900008319038825817}
-  animator: {fileID: 2240606817507776182}
+  animator: {fileID: 7814190900469456058}
   healthBar: {fileID: 1985504562751981867}
+  animX: xSpd
+  animY: ySpd
+  animAtt: attack
+  animDie: die
+  attackRange: 2
   health: 2
 --- !u!195 &6900008319038825817
 NavMeshAgent:
@@ -313,6 +298,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4492442352427800}
     m_Modifications:
+    - target: {fileID: 2456941300384992800, guid: f615bb15a8382e14b85c9c065104303d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a74f4b0dca2d8ec439b4d2eb2e777d94, type: 2}
     - target: {fileID: 8428737171796710490, guid: f615bb15a8382e14b85c9c065104303d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -366,5 +355,10 @@ PrefabInstance:
 --- !u!4 &4220358751115249344 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8428737171796710490, guid: f615bb15a8382e14b85c9c065104303d, type: 3}
+  m_PrefabInstance: {fileID: 5650146303665853082}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7814190900469456058 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2456941300384992800, guid: f615bb15a8382e14b85c9c065104303d, type: 3}
   m_PrefabInstance: {fileID: 5650146303665853082}
   m_PrefabAsset: {fileID: 0}

@@ -11,6 +11,13 @@ namespace ZombieGame
         public Animator animator;
         public TextMesh healthBar;
 
+        [Header("Animations")]
+        [SerializeField] private string animX = "xSpd";
+        [SerializeField] private string animY = "ySpd";
+        [SerializeField] private string animAtt = "attack";
+        [SerializeField] private string animDie = "die";
+        [SerializeField] private string animHurt = "isHit";
+
         [Header("Combat")]
         [SerializeField] private float attackRange = 2.0f;
 
@@ -51,12 +58,28 @@ namespace ZombieGame
 
                 RpcSetDestination(target.position);
             }
+
+            // Update animations
+            RpcAnimateMovement();
         }
 
         private void Update()
         {
             if (Time.frameCount % 6 == 0) healthBar.text = new string('-', Mathf.RoundToInt(health));
         }
+
+        [ClientRpc]
+        private void RpcAnimateMovement()
+        {
+            var forward = Vector3.Dot(agent.velocity, agent.transform.forward);
+            var right = Vector3.Dot(agent.velocity, agent.transform.right);
+
+            animator.SetFloat(animX, right);
+            animator.SetFloat(animY, forward);
+        }
+
+        [ClientRpc]
+        private void RpcAnimateDamage() => animator.SetTrigger(animHurt);
 
         [ClientRpc]
         private void RpcSetDestination(Vector3 destination) => agent.SetDestination(destination);
@@ -76,6 +99,7 @@ namespace ZombieGame
             health -= damage;
 
             if (health <= 0) NetworkServer.Destroy(gameObject);
+            else RpcAnimateDamage();
         }
     }
 }
