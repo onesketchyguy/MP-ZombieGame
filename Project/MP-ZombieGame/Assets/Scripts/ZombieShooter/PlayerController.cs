@@ -75,7 +75,8 @@ namespace ZombieGame
 
                 runInput = Mathf.Clamp01(runInput);
 
-                lookInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+                lookInput.x = Input.GetAxisRaw("Mouse X");
+                lookInput.y = Input.GetAxisRaw("Mouse Y");
 
                 fpsController.SetMoveInput(moveInput, runInput).SetLookInput(lookInput);
             }
@@ -90,10 +91,19 @@ namespace ZombieGame
 
             // FIXME: Interpret if it's a skinned mesh renderer or mesh renderer
 
-            var bodyMesh = body.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var skinnedMesh = body.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var bodyMesh = body.GetComponentsInChildren<MeshRenderer>();
 
             if (isLocalPlayer)
             {
+                if (skinnedMesh.Length == 0) Debug.LogError("No skinned body mesh!");
+
+                foreach (var item in skinnedMesh)
+                {
+                    item.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                    Debug.Log($"{item.name} set to {item.shadowCastingMode}");
+                }
+
                 if (bodyMesh.Length == 0) Debug.LogError("No body mesh!");
 
                 foreach (var item in bodyMesh)

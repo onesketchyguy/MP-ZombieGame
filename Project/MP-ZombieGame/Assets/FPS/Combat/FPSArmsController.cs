@@ -20,15 +20,11 @@ namespace FPS
 
         [SerializeField] private UnityEngine.Events.UnityEvent onFire;
 
-        public uint GetBulletCount()
-        {
-            return currentWeaponAmmo;
-        }
+        public uint GetBulletCount() => currentWeaponAmmo;
 
-        public bool GetReloading()
-        {
-            return (reloadTime > Time.time);
-        }
+        public bool GetReloading() => (reloadTime > Time.time);
+
+        public bool GetAiming() => aiming;
 
         private void OnEnable()
         {
