@@ -10622,10 +10622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 1e78f9c5805fc33478582cabbd79b91b, type: 3}
-  - {fileID: 8300000, guid: 50b7f69578a9fb246ae7e26581be2dcb, type: 3}
-  - {fileID: 8300000, guid: d67f405f9c13064499c80ad9f9181bcd, type: 3}
-  - {fileID: 8300000, guid: 0021efa0eb8023f49a69f5ac23e6b779, type: 3}
+  - {fileID: 8300000, guid: 98a8371047c34964c9c6ba1702f4082e, type: 3}
   audioSource: {fileID: 1144766855928542357}
 --- !u!1 &2976303389451062079
 GameObject:
