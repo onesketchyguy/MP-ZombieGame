@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FPS
@@ -8,9 +9,35 @@ namespace FPS
         [SerializeField] private Animator anim;
         [SerializeField] private string animAimFloat = "Aim";
         [SerializeField] private string animReloadTrigger = "Reload";
-        private uint currentWeaponAmmo = 0;
+        public uint curAmmo
+        {
+            get
+            {
+                if (weaponIndex >= 0 && weaponIndex < weapons.Count)
+                    return weapons[weaponIndex].ammo;
+
+                return 0;
+            }
+            private set
+            {
+                if (weaponIndex >= 0 && weaponIndex < weapons.Count)
+                {
+                    var weaponData = weapons[weaponIndex];
+                    weaponData.ammo = value;
+                    weapons[weaponIndex] = weaponData;
+                } else Debug.LogError("No weapon to modify ammo!");
+            }
+        }
+
+        [SerializeField] private List<GameObject> weaponObjects = new List<GameObject>();
+        [SerializeField] private Transform weaponParent;
+        private List<Weapon> weapons = new List<Weapon>();
+        private int weaponIndex = -1;
 
         [SerializeField] private UnityEngine.UI.Graphic crossheir = null;
+
+        [SerializeField] private bool playParticle = true;
+        private ParticleSystem ps = null;
 
         [SerializeField] internal AnimationClip reloadClip = null; // FIXME: Assign clip based on weapon
         private float reloadTime;
@@ -20,15 +47,12 @@ namespace FPS
 
         [SerializeField] private UnityEngine.Events.UnityEvent onFire;
 
-        public uint GetBulletCount() => currentWeaponAmmo;
-
         public bool GetReloading() => (reloadTime > Time.time);
 
         public bool GetAiming() => aiming;
 
         private void OnEnable()
         {
-            FPSInputManager.Init();
             inputActions = FPSInputManager.GetPlayerInput();
             inputActions.Aim.performed += _ => Aim(true);
             inputActions.Aim.canceled += _ => Aim(false);
@@ -42,18 +66,48 @@ namespace FPS
             inputActions.Aim.performed -= _ => Aim(true);
             inputActions.Aim.canceled -= _ => Aim(false);
             inputActions.Reload.performed -= _ => ReloadWeapon();
-            FPSInputManager.Disable();
         }
 
         private void Update()
         {
-            if (anim.gameObject.activeSelf == false) return;
+            if (FPSInputManager.enabled == false)
+            {
+                Debug.LogError("Forced to reenable input");
+                FPSInputManager.Enable();
+                return;
+            }
+
+            if (anim == null || anim.gameObject.activeSelf == false) return;
+            Debug.Log($"{gameObject.name} Anim set: {anim.GetFloat(animAimFloat)}");
 
             float aimValue = anim.GetFloat(animAimFloat);
             anim.SetFloat(animAimFloat, Mathf.Lerp(aimValue, aiming == true ? 1 : 0, moveToAimSpd * Time.deltaTime));
 
             crossheir.color = Color.Lerp(crossheir.color, 
                 new Color(crossheir.color.r, crossheir.color.g, crossheir.color.b, (aiming == true ? 0 : 1) * 255.0f), aimValue);
+        }
+
+        public void PickupWeapon(WeaponObject weaponObject)
+        {
+            if (weaponIndex != -1)
+            {
+                weaponObjects[weaponIndex].SetActive(false);
+            }
+
+            weapons.Add(weaponObject.data);
+            EquipWeapon(weapons.Count - 1);
+        }
+
+        public void EquipWeapon(int index)
+        {
+            weaponIndex = index;
+
+            weaponObjects.Add(Instantiate(weapons[weaponIndex].weaponPrefab, weaponParent));
+            weaponObjects[weaponIndex].SetActive(true);
+
+            anim = weaponObjects[weaponIndex].GetComponentInChildren<Animator>();
+
+            if (playParticle) ps = weaponObjects[weaponIndex].GetComponentInChildren<ParticleSystem>();
         }
 
         public void Aim(bool value)
@@ -65,13 +119,16 @@ namespace FPS
         {
             if (reloadTime > Time.time) return false;
 
-            if (currentWeaponAmmo <= 0)
+            if (curAmmo <= 0)
             {
                 ReloadWeapon();
                 return false;
             }
 
-            currentWeaponAmmo--;
+            curAmmo--;
+
+            if (playParticle && ps != null) ps.Play();
+
             onFire?.Invoke();
 
             return true;
@@ -90,7 +147,7 @@ namespace FPS
 
         public void ResetAmmo()
         {
-            currentWeaponAmmo = 7; // FIXME: Use magazine size
+            curAmmo = 7; // FIXME: Use magazine size
         }
     }
 }

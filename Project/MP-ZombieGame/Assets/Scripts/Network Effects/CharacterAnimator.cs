@@ -57,13 +57,13 @@ namespace ZombieGame
 
             if (lastBulletCount > 0)
             {
-                if (lastBulletCount != fpsArms.GetBulletCount())
+                if (lastBulletCount != fpsArms.curAmmo)
                 {
                     CmdSetTrigger(animShoot);
-                    lastBulletCount = fpsArms.GetBulletCount();
+                    lastBulletCount = fpsArms.curAmmo;
                 }
             }
-            else lastBulletCount = fpsArms.GetBulletCount();
+            else lastBulletCount = fpsArms.curAmmo;
         }
 
         [Command]

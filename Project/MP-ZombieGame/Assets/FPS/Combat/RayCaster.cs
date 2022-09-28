@@ -29,7 +29,7 @@ namespace FPS
 
                     if (hitMarker != null)
                     {
-                        StartCoroutine(OnHit());
+                        StartCoroutine(AnimateHitMarker());
                     }
 
                     onHitEvent?.Invoke();
@@ -45,7 +45,7 @@ namespace FPS
             return false;
         }
 
-        private IEnumerator OnHit()
+        private IEnumerator AnimateHitMarker()
         {
             hitMarker.color = new Color(hitMarker.color.r, hitMarker.color.g, hitMarker.color.b, 0.0f);
             yield return null;

@@ -5,6 +5,7 @@ namespace FPS
     public static class FPSInputManager
     {
         private static FPSControls inputActions;
+        public static bool enabled { get; private set; } = false;
 
         public static void Init()
         {
@@ -32,11 +33,15 @@ namespace FPS
             }
 
             inputActions.Enable();
+            enabled = true;
         }
 
         public static void Disable()
         {
             if (inputActions != null) inputActions.Disable();
+            enabled = false;
+
+            Debug.LogError("Disabled input!");
         }
 
         public static FPSControls.PlayerActions GetPlayerInput()

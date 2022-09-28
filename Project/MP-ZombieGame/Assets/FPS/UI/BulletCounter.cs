@@ -38,13 +38,13 @@ namespace FPS
             }
             else
             {
-                if (armsController.GetBulletCount() > 0)
+                if (armsController.curAmmo > 0)
                 {
                     bulletImage.rectTransform.pivot = startPivot;
 
                     var rect = bulletImage.rectTransform.sizeDelta;
-                    float w = width * armsController.GetBulletCount() % maxWidth;
-                    float h = width * armsController.GetBulletCount() / maxWidth;
+                    float w = width * armsController.curAmmo % maxWidth;
+                    float h = width * armsController.curAmmo / maxWidth;
                     h += width;
 
                     bulletImage.rectTransform.sizeDelta = new Vector2(w, h);

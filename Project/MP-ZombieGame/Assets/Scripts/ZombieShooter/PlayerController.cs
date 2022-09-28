@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mirror;
+using FPS;
 
 namespace ZombieGame
 {
@@ -15,6 +16,7 @@ namespace ZombieGame
         [SerializeField] private FPS.FPSArmsController fpsArms;
         [SerializeField] private FPS.RayCaster rayCaster;
         [SerializeField] private UnityEngine.Events.UnityEvent onFire;
+        [SerializeField] private WeaponObject startWeapon;
 
         [Header("Stats")]
         [SyncVar] public int health = 4;
@@ -45,11 +47,27 @@ namespace ZombieGame
         public override void OnStartLocalPlayer()
         {
             characterController.enabled = true;
-            FPS.FPSInputManager.Enable();
+        }
+
+        public override void OnStartAuthority()
+        {
+            base.OnStartAuthority();
+            FPSInputManager.Enable();
+        }
+
+        public override void OnStopAuthority()
+        {
+            base.OnStopAuthority();
+            FPSInputManager.Disable();
         }
 
         private void OnEnable() => AiBlackboard.RegisterPlayer(this);
         private void OnDisable() => AiBlackboard.DeregisterPlayer(this);
+
+        public void Start()
+        {
+            if (isLocalPlayer) fpsArms.PickupWeapon(startWeapon);
+        }
 
         void Update()
         {
