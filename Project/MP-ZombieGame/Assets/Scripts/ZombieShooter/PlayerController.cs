@@ -55,12 +55,14 @@ namespace ZombieGame
         {
             base.OnStartAuthority();
             FPSInputManager.Enable();
+            fpsController.SetMouseLocked(true);
         }
 
         public override void OnStopAuthority()
         {
             base.OnStopAuthority();
             FPSInputManager.Disable();
+            fpsController.SetMouseLocked(false);
         }
 
         private void OnEnable() => AiBlackboard.RegisterPlayer(this);

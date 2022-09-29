@@ -111,10 +111,15 @@ namespace FPS
             return this;
         }
 
+        public void SetMouseLocked(bool value)
+        {
+            Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.visible = value;
+        }
+
         private void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            //SetMouseLocked(true);
 
             cameraStartY = cameraPeg.localPosition.y;
 

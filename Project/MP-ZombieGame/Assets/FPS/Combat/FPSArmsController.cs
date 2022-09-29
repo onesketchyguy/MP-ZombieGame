@@ -79,15 +79,7 @@ namespace FPS
 
         private void Update()
         {
-            if (FPSInputManager.enabled == false)
-            {
-                Debug.LogError("Forced to reenable input");
-                FPSInputManager.Enable();
-                return;
-            }
-
             if (anim == null || anim.gameObject.activeSelf == false) return;
-            Debug.Log($"{gameObject.name} Anim set: {anim.GetFloat(animAimFloat)}");
 
             float aimValue = anim.GetFloat(animAimFloat);
             anim.SetFloat(animAimFloat, Mathf.Lerp(aimValue, aiming == true ? 1 : 0, moveToAimSpd * Time.deltaTime));
