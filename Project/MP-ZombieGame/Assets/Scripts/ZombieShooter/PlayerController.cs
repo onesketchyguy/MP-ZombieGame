@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using FPS;
+using FPS.Inventory;
 
 namespace ZombieGame
 {
@@ -13,8 +14,8 @@ namespace ZombieGame
         public float rotationSpeed = 100;
 
         [Header("Firing")]
-        [SerializeField] private FPS.FPSArmsController fpsArms;
-        [SerializeField] private FPS.RayCaster rayCaster;
+        [SerializeField] private FPSArmsController fpsArms;
+        [SerializeField] private RayCaster rayCaster;
         [SerializeField] private UnityEngine.Events.UnityEvent onFire;
         [SerializeField] private WeaponObject startWeapon;
 
@@ -22,7 +23,8 @@ namespace ZombieGame
         [SyncVar] public int health = 4;
 
         [Header("Character setup")]
-        [SerializeField] private FPS.FPSController fpsController;
+        [SerializeField] private FPSController fpsController;
+        [SerializeField] private InventoryManager inventory;
         [SerializeField] private CharacterController characterController;
 
         [Header("Client setup")]
@@ -66,7 +68,11 @@ namespace ZombieGame
 
         public void Start()
         {
-            if (isLocalPlayer) fpsArms.PickupWeapon(startWeapon);
+            if (isLocalPlayer)
+            {
+                fpsArms.PickupWeapon(startWeapon);
+                inventory.EquipItem(startWeapon.idObj);
+            }
         }
 
         void Update()
@@ -81,7 +87,7 @@ namespace ZombieGame
                 // shoot
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if (fpsArms.FireWeapon() == true) CmdFire();
+                    if (fpsArms.FireWeapon() == true) CmdFire(fpsArms.GetActiveWeapon().damage);
                 }
 
                 moveInput.x = Input.GetAxisRaw("Horizontal");
@@ -134,9 +140,9 @@ namespace ZombieGame
 
         // this is called on the server
         [Command]
-        private void CmdFire()
+        private void CmdFire(int damage)
         {
-            rayCaster.Cast(1); // FIXME: Use weapon damage
+            rayCaster.Cast(damage);
             RpcFire();
         }
 

@@ -51,6 +51,15 @@ namespace FPS
 
         public bool GetAiming() => aiming;
 
+        public Weapon GetActiveWeapon()
+        {
+            if (weaponIndex < 0 || weaponIndex > weapons.Count)
+            {
+                return new Weapon();
+            }
+            else return weapons[weaponIndex];
+        }
+
         private void OnEnable()
         {
             inputActions = FPSInputManager.GetPlayerInput();
@@ -138,16 +147,13 @@ namespace FPS
         {
             if (GetReloading()) return;
 
-            anim.SetTrigger(animReloadTrigger);
+            if (anim != null) anim.SetTrigger(animReloadTrigger);
 
             reloadTime = Time.time + reloadClip.length;
 
             Invoke(nameof(ResetAmmo), reloadClip.length);
         }
 
-        public void ResetAmmo()
-        {
-            curAmmo = 7; // FIXME: Use magazine size
-        }
+        public void ResetAmmo() => curAmmo = GetActiveWeapon().clipSize;
     }
 }

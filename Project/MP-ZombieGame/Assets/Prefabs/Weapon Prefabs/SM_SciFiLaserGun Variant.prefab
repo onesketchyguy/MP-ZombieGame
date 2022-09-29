@@ -9736,7 +9736,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 91b6cf1767089ce4da94376507b0c56e, type: 3}
       propertyPath: m_Name
-      value: SM_SciFiLaserGun
+      value: SM_SciFiLaserGun Variant
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 91b6cf1767089ce4da94376507b0c56e, type: 3}
       propertyPath: m_Layer
@@ -9768,19 +9768,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 91b6cf1767089ce4da94376507b0c56e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071067
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 91b6cf1767089ce4da94376507b0c56e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.7071069
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 91b6cf1767089ce4da94376507b0c56e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.000000042840828
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 91b6cf1767089ce4da94376507b0c56e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.000000024680043
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 91b6cf1767089ce4da94376507b0c56e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -15,6 +15,6 @@ MonoBehaviour:
   data:
     weaponPrefab: {fileID: 1425756895877542, guid: 9820bbe58bb57204db392c631110251c, type: 3}
     damage: 1
-    clipSize: 8
-    ammo: 8
+    clipSize: 20
+    ammo: 0
   idObj: {fileID: 11400000, guid: 30c67e093457c6648b8077384fda6d65, type: 2}
