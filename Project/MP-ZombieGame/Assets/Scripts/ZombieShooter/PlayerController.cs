@@ -62,7 +62,8 @@ namespace ZombieGame
             base.OnStartAuthority();
             FPSInputManager.Enable();
             fpsController.SetMouseLocked(true);
-            rayCaster.onKillEvent.AddListener((v) => { score += v; Debug.LogWarning(v); });
+
+            CmdInit();
         }
 
         public override void OnStopAuthority()
@@ -72,6 +73,21 @@ namespace ZombieGame
             fpsController.SetMouseLocked(false);
         }
 
+        [Command]
+        private void CmdInit()
+        {
+            RpcInit();
+        }
+
+        [ClientRpc]
+        private void RpcInit()
+        {
+            health = maxHealth;
+            rayCaster.onKillEvent.AddListener((v) => { score += v; Debug.Log($"netID({netId}) recieving {v} score"); });
+            int id = inventory.GetItemID(startWeapon.idObj);
+            inventory.EquipItem(id);
+        }
+
         private void OnEnable() => AiBlackboard.RegisterPlayer(this);
         private void OnDisable() => AiBlackboard.DeregisterPlayer(this);
 
@@ -79,10 +95,7 @@ namespace ZombieGame
         {
             if (isLocalPlayer)
             {
-                health = maxHealth;
-
                 fpsArms.PickupWeapon(startWeapon);
-                inventory.EquipItem(startWeapon.idObj);
                 scoreDisplay.text = 0.ToString();
             }
         }

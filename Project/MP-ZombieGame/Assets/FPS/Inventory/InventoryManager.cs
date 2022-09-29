@@ -11,6 +11,31 @@ namespace FPS.Inventory
 
         private List<IdentifiableObject> inventoryItems = new List<IdentifiableObject>();
 
+        public int GetItemID(IdentifiableObject ido)
+        {
+            // Add the new item to the list if its not already in it
+            if (inventoryItems.Contains(ido) == false) inventoryItems.Add(ido);
+            for (int i = 0; i < inventoryItems.Count; i++)
+            {
+                if (inventoryItems[i] == ido) return i;
+            }
+
+            return -1;
+        }
+
+        public void EquipItem(int id)
+        {
+            if (idObjects == null) idObjects = searchStartPoint.GetComponentsInChildren<IdentifiableGameObject>();
+
+            // Unequip the old items
+            UnequipItems();
+
+            foreach (var item in idObjects)
+            {
+                item.gameObject.SetActive(item.idObj == inventoryItems[id] && item.uniqueToGameObject != onBackKey);
+            }
+        }
+
         public void EquipItem(IdentifiableObject ido)
         {
             if (idObjects == null) idObjects = searchStartPoint.GetComponentsInChildren<IdentifiableGameObject>();
