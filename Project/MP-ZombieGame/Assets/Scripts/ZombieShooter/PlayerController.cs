@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using FPS;
 using FPS.Inventory;
+using TMPro;
 
 namespace ZombieGame
 {
@@ -9,6 +10,9 @@ namespace ZombieGame
     {
         [Header("Components")]
         public TextMesh healthBar;
+        [SerializeField] private TextMeshProUGUI scoreDisplay = null;
+        [SerializeField] private TextMeshProUGUI healthDisplay = null;
+        [SerializeField] private UnityEngine.UI.Slider healthSlider = null;
 
         [Header("Movement")]
         public float rotationSpeed = 100;
@@ -20,7 +24,9 @@ namespace ZombieGame
         [SerializeField] private WeaponObject startWeapon;
 
         [Header("Stats")]
+        [SyncVar] public int score = 0;
         [SyncVar] public int health = 4;
+        [SyncVar] public int maxHealth = 4;
 
         [Header("Character setup")]
         [SerializeField] private FPSController fpsController;
@@ -56,6 +62,7 @@ namespace ZombieGame
             base.OnStartAuthority();
             FPSInputManager.Enable();
             fpsController.SetMouseLocked(true);
+            rayCaster.onKillEvent.AddListener((v) => { score += v; Debug.LogWarning(v); });
         }
 
         public override void OnStopAuthority()
@@ -72,8 +79,11 @@ namespace ZombieGame
         {
             if (isLocalPlayer)
             {
+                health = maxHealth;
+
                 fpsArms.PickupWeapon(startWeapon);
                 inventory.EquipItem(startWeapon.idObj);
+                scoreDisplay.text = 0.ToString();
             }
         }
 
@@ -81,11 +91,20 @@ namespace ZombieGame
         {
             // always update health bar.
             // (SyncVar hook would only update on clients, not on server)
-            healthBar.text = new string('-', health);
+            healthBar.text = $"{health} / {maxHealth}";
 
             // movement for local player
             if (isLocalPlayer)
             {
+                // UI
+                int oldScore = int.Parse(scoreDisplay.text);
+                int newScore = oldScore < score ? oldScore + 1 : oldScore > score ? oldScore - 1 : score;
+                scoreDisplay.text = $"{newScore}";
+
+                healthDisplay.text = $"{health} / {maxHealth}";
+                healthSlider.value = health / (float)maxHealth;
+                healthSlider.maxValue = 1.0f;
+
                 // shoot
                 if (Input.GetMouseButtonDown(0))
                 {

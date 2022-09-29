@@ -23,6 +23,7 @@ namespace ZombieGame
 
         [Header("Stats")]
         [SyncVar] public float health = 4;
+        [SerializeField] private int killScore = 100;
 
         private Transform target = null;
 
@@ -94,12 +95,21 @@ namespace ZombieGame
         //}
 
         [ServerCallback]
-        public void RecieveDamage(float damage)
+        public void RecieveDamage(float damage, ref bool killedTarget)
         {
             health -= damage;
 
-            if (health <= 0) NetworkServer.Destroy(gameObject);
+            if (health <= 0)
+            {
+                killedTarget = true;
+                NetworkServer.Destroy(gameObject);
+            }
             else RpcAnimateDamage();
+        }
+
+        public int GetKillScore()
+        {
+            return killScore;
         }
     }
 }

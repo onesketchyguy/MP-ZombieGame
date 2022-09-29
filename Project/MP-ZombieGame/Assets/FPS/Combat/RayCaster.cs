@@ -8,7 +8,8 @@ namespace FPS
         [SerializeField] private UnityEngine.UI.Image hitMarker = null;
         [SerializeField] private float hitMarkerDecaySpeed = 50.0f;
 
-        [SerializeField] UnityEngine.Events.UnityEvent onHitEvent;
+        [SerializeField] public UnityEngine.Events.UnityEvent onHitEvent;
+        [SerializeField] public UnityEngine.Events.UnityEvent<int> onKillEvent;
 
         private void Start()
         {
@@ -25,7 +26,11 @@ namespace FPS
                 var damagable = hit.transform.gameObject.GetComponent<IDamagable>();
                 if (damagable != null)
                 {
-                    damagable.RecieveDamage(damage);
+                    bool killedTarget = false;
+                    int s = damagable.GetKillScore();
+                    damagable.RecieveDamage(damage, ref killedTarget);
+
+                    if (killedTarget) onKillEvent?.Invoke(s);
 
                     if (hitMarker != null)
                     {
