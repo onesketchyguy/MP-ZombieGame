@@ -186,15 +186,15 @@ namespace ZombieGame
             onFire?.Invoke();
         }
 
-        //[ServerCallback]
-        //void OnTriggerEnter(Collider other)
-        //{
-        //    if (other.GetComponent<Projectile>() != null)
-        //    {
-        //        --health;
-        //        if (health == 0)
-        //            NetworkServer.Destroy(gameObject);
-        //    }
-        //}
+        [ServerCallback]
+        void OnTriggerEnter(Collider other)
+        {
+            var damager = other.GetComponent<PhysicalDamager>();
+            if (damager != null)
+            {
+                health -= damager.damage;
+                if (health <= 0) NetworkServer.Destroy(gameObject); // Died
+            }
+        }
     }
 }

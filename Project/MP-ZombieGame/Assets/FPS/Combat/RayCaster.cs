@@ -32,7 +32,7 @@ namespace FPS
 
                     if (killedTarget) onKillEvent?.Invoke(s);
 
-                    if (hitMarker != null)
+                    if (hitMarker != null && gameObject.activeSelf)
                     {
                         StartCoroutine(AnimateHitMarker());
                     }

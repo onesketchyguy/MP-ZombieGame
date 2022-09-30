@@ -546,7 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Port: 7777
+  Port: 2302
   DualMode: 1
   NoDelay: 1
   Interval: 10
@@ -1363,7 +1363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secretHandshake: 1558261479176021378
-  serverBroadcastListenPort: 47777
+  serverBroadcastListenPort: 2302
   enableActiveDiscovery: 1
   ActiveDiscoveryInterval: 3
   transport: {fileID: 1410690709}
@@ -1385,12 +1385,12 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   autoStartServerBuild: 1
-  serverTickRate: 30
+  serverTickRate: 60
   offlineScene: Assets/Scenes/MultiplayerLobby.unity
   onlineScene: Assets/Scenes/SampleScene.unity
   transport: {fileID: 1410690709}
   networkAddress: localhost
-  maxConnections: 100
+  maxConnections: 12
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 1916082411674582, guid: 767cf794900a8254bb2d999b41e7e77a, type: 3}
   autoCreatePlayer: 1
@@ -2626,7 +2626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 7777
+  port: 2302
   NoDelay: 1
   SendTimeout: 5000
   ReceiveTimeout: 30000
