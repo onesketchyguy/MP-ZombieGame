@@ -482,6 +482,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onKillEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2753762826838890418
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +702,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 247
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1

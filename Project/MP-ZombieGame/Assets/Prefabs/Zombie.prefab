@@ -154,7 +154,6 @@ MonoBehaviour:
   - {fileID: 1827226128182048838, guid: 3cb7abaf378f6ba46a70567cc09c3c03, type: 3}
   - {fileID: 1827226128182048838, guid: e4fea13fe130ce341813f4edc518af92, type: 3}
   - {fileID: 1827226128182048838, guid: 151b567ba949085408adf5ce9c693b59, type: 3}
-  overrideController: {fileID: 0}
   attackRange: 2.5
   health: 5
   killScore: 100
@@ -325,6 +324,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.0000000031956586
       objectReference: {fileID: 0}
+    - target: {fileID: 2456941300384992800, guid: f615bb15a8382e14b85c9c065104303d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a74f4b0dca2d8ec439b4d2eb2e777d94, type: 2}
     - target: {fileID: 3180162646704545888, guid: f615bb15a8382e14b85c9c065104303d, type: 3}
       propertyPath: damage
       value: 7
